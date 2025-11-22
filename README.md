@@ -33,27 +33,23 @@ Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
 toit pkg install github.com/yourname/toit-mqtt-e2e
 ```
 
-## 30-second example
-```toit
-import mqtt
-import mqtt_e2e
+## Examples
 
-KEY: = #[
-  0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-  0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
-]
+Full working programs are in the `examples/` folder:
 
-main:
-  client/mqtt.Client := mqtt.Client --host="broker.emqx.io"
-  session := mqtt_e2e.Session client --key=KEY --pad_size=50
+- `examples/iot-example.toit` – device side
+- `examples/controller-example.toit` – command side
 
-  // publish
-  session.publish "device/42/log" "Hello from Toit!"
+before running the programs put a **unique** randomly generated key in
+- `examples/shared.toit`
 
-  // subscribe
-  session.subscribe "device/42/cmd" :: | topic payload |
-    print "Received decrypted: $payload"
-```
+
+Run locally:
+
+```bash
+cd examples
+
+jag run -d ESP32(your device) iot-example.toit -O2
 
 ## API summary
 ```toit

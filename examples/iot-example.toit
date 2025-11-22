@@ -1,3 +1,8 @@
+// edit "shared.toit" and put a unique 16-byte key
+
+// Use of this source code is governed by a Zero-Clause BSD license that can
+// be found in the examples/LICENSE file.
+
 import mqtt-e2e show ntp-time MqttE2E
 import .shared //show key pad-size
 import monitor
