@@ -1,6 +1,6 @@
 # ![Status](https://img.shields.io/badge/status-under%20construction-red)
 
-## mqtt_e2e
+## mqtt-e2e
 Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
 
 > **Security in a nutshell**
@@ -10,9 +10,10 @@ Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
 > - No TLS, no broker password, no certificates – the broker sees only random bytes.
 
 ## When you should use this
-- The most important of all, no need to maintain server accounts and certificates.
+- The most important of all, no need to maintain server accounts and certificates. No need to be on the same network to communicate with your IOT devices. The only think 2 modules to be able to communicate effectivelly and securelly is the common 16-byte key.
+- Especially effective as a replacement of a terminal. You can send commands to the IOT module and the module replies via the same channel.
 - Rapid IoT prototypes that must use **unknown or untrusted** public brokers.
-- Avoid TLS overhead, certs etc.  but still need **strong confidentiality & inntegrity**. The module inrtroduces its own overhead however.
+- Avoid TLS overhead, certificates mainainance etc.  but still need **strong confidentiality & inntegrity**. The module inrtroduces its own overhead however.
 - IOT units that connect / disconnect frequently so direct TLS connections are not practical.
 
 ## When you should NOT
