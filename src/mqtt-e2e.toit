@@ -192,7 +192,7 @@ class MqttE2E:
   logger_/log.Logger ::= ?
   //
   constructor
-      --pad-size/int=25
+      --pad-size/int=50
       --port/int=std-port
       --host/string
       --auth-data/string="1234567812345678"
