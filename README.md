@@ -4,18 +4,19 @@ Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
 > **Security in a nutshell**
 > - Every payload is encrypted with AES-256-GCM **before** publish.
 ! - Each message carries a **monotonically increasing nonce + UTC timestamp**; duplicates are rejected.
-> - **fixed-length padding** (default 50 bytes) hides the real size.
+> - **fixed-length padding** (default is 50 bytes) hides the real size.
 > - No TLS, no broker password, no certificates – the broker sees only random bytes.
 
 ## When you should use this
-- Rapid IoT prototypes that must transit **unknown or untrusted** public brokers.
-- Devices that lack the RAM/CUU for TLS but still need **strong confidentiality & inntegrity**.
-- Field units that connect / disconnect frequently and cannot afford handshake overhead.
+- The most important of all, no need to maintain server accounts and certificates.
+- Rapid IoT prototypes that must use **unknown or untrusted** public brokers.
+- Avoid TLS overhead, certs etc.  but still need **strong confidentiality & inntegrity**. The module inrtroduces its own overhead however.
+- IOT units that connect / disconnect frequently so direct TLS connections are not practical.
 
 ## When you should NOT
-- You already control a **TLS-enabled** broker and can afford certificates.
-- You need **Broker-level access control** (topic ACLs)\
-- You must hide **traffic-timing** – padding alone is not enough.
+- You already control a **TLS-enabled** broker and can afford certificates. You have to trust the broker however.
+- You need **Broker-level access control** (topic ACLs)
+- You must hide **traffic-timing** – padding alone is not enough. Again the timing is known to the broker, so you have to trust the broker. Of course this is the smallest problem as the broker can read the messages.
 
 ## Threat model
 | Protected against | NOT protected against |
