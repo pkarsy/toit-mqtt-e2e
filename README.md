@@ -2,7 +2,7 @@
 ![Status](https://img.shields.io/badge/status-under%20construction-red)
 
 ## mqtt-e2e
-Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
+Zero-config, broker-agnostic, end-to-end encrypted communication using MQTT instead of TCP sockets.
 
 ## Security in a nutshell
 - Every payload is encrypted with AES-128-GCM **before** publish.
@@ -10,18 +10,18 @@ Zero-config, broker-agnostic, end-to-end encrypted MQTT for Toit.
 - **fixed-length padding** (default is 50 bytes) hides the real size.
 - No TLS, no account, no broker password, no certificates – the broker sees only random bytes.
 
-## When you should use this
-- The most important of all, no need to maintain server accounts and certificates. No need to be on the same network to communicate with your IOT devices. The only thing the 2 nodes need, to be able to communicate effectivelly and securelly, is the common 16-byte key.
-- Especially effective as a replacement of a terminal. You can send commands to the IOT module and the module replies via the same channel. Of course JSON messages are also very IOT friently.
-- Rapid IoT prototypes that must use **unknown or untrusted** public brokers.
-- Avoid TLS overhead, certificates maintenance etc.  but still need **strong confidentiality & integrity**. The module introduces its own overhead however.
-- IOT units that connect / disconnect frequently so direct TLS connections are not practical.
+## You may want to use it :
+- To avoid maintaining server accounts and certificates. The only thing the 2 nodes need, to be able to communicate effectivelly and securelly, is the common 16-byte key.
+- To easily bypass firewalls, NAT and double NAT
+- As a terminal replacemnet. You can send commands to the IOT module and the module replies via the same channel.
+- For rapid IoT prototypes that must use **unknown or untrusted** public brokers.
+- For IOT units that connect / disconnect frequently or change networks, so direct TLS connections are not practical.
 
-## When you should NOT
-- You already control a **TLS-enabled** broker and can afford certificates. You have to trust the broker however.
+## You may want to avoid it when :
+- You have account to a **TLS-enabled** broker, and you trust the broker.
 - You need **Broker-level access control** (topic ACLs)
-- You must hide **traffic-timing** – padding alone is not enough. Again the timing is known to the broker, so you have to trust the broker.
-- The ESP32 modules are exposed to everyone from the Internet to send any packet, and the library has limited testing.
+- You need to hide **traffic-timing** – padding alone is not enough.
+- You want to protect the ESP32 modules from direct internet exposure.
 
 ## Threat model
 | Protected against | NOT protected against |

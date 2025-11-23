@@ -4,15 +4,5 @@ description: Zero-conf, broker-agnostic end-to-end encrypted MQTT for Toit.
 version: 0.0.1
 license: MIT
 url: https://github.com/pkarsy/toit-mqtt-e2e
-# list only external packages; TODO !!
-dependencies:
-  host:
-    url: github.com/toitlang/pkg-host
-    version: ^1.17.0
-  mqtt:
-    url: github.com/toitware/mqtt
-    version: ^2.13.1
-  ntp:
-    url: github.com/toitlang/pkg-ntp
-    version: ^1.1.0
+
 
