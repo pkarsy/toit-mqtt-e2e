@@ -39,32 +39,32 @@ toit pkg install github.com/yourname/toit-mqtt-e2e
 Full working programs are in the `examples/` folder:
 
 Before running the programs put a **unique** randomly generated key in
-`shared.toit`. Inside the file there are instructions on how easiliy generate a key.
+`shared.toit`. Inside the file there are instructions on how to generate the key.
 
 - `iot-example.toit` – IOT side. Run it with
 
   `jag run -d "yourIOT" iot-example.toit`
-  but also works with `-d host`
+  You need to have `jag monitor` running to see what's happening.
+  Even easier, also works with `-d host`
 - `controller-example.toit` – command side. Run it with
 
   `jag run -d host controller-example.toit`
 
 ## Time window
-Every encrypted packet has the time of creation as cleartext at the start of the packet. It cannot be forged as it is used as part of the IV. Given that to be able to use mqtt, the modules are already connected, they can also have their clock well synchronized. The `ntp-time` helper function (start of main:) can easily do this. For this reason the allowed time window outside of which the message is rejected is relativelly small (10sec but can be afdjusted)
+Every encrypted message has the time of creation as cleartext at the start of the packet. It cannot be forged as it is used as part of the IV. Given that (to be able to use the library) the modules are internet connected, they can also have their RTC well synchronized. The `ntp-time` helper function (in `main`) can conveniently do this. For this reason the allowed time window outside of which the message is rejected is relativelly small (10sec but can be afdjusted)
 The receiver keeps the last N timestamps(At the moment 1). When 2 messages arrive one after another. And someone send the first packet again trying to perform a replay attack, the message will be rejected despite being in the 10 sec window.
 
+
 ## Padding
-Messages shorter than `--pad-size` are padded with random bytes; longer messages are sent as-is.  Choose `pad-size` slightly larger than your largest expected message/JSON blob if you want to hide the size of the messages. **Changing pad-size does NOT break compatibility** – receivers auto-detect.
+Messages shorter than `--pad-size` are padded with random bytes. Longer messages are sent as-is.  Choose `pad-size` slightly larger than your largest expected message/JSON if you want to hide the size of the messages. **Changing pad-size does NOT break compatibility** – receivers auto-detect.
+
 
 ## Key distribution
-- The idea is the nodes share the same source tree so the key is naturally hardcoded in each node. This is the main mechanism for shared secret distribution.
-Of course this is not always the case.
+- Usually the nodes share the same source tree so the key is naturally hardcoded in each node. This mechanism does not scale for more than a few devices. In theese cases every IOT(or a few IOTs) must have its own key and the controller can distinguise them using the topic.
 - The library does **not** implement key exchange.
 You must provision the 16-byte key out-of-band (BLE, UART, etc.).
-- Another idea is to use ed25519 to create a shared secret, but again this is
-not implemented.
-- Generally speaking the shared secret method cannot scale well for a large number of devices.
-For such cases, public key crypto has advantages(but even then there are problems), but also huge complexity penalty, and as I have not use cases for this, not implemented.
+- Another idea is to use ed25519 to create a shared secret(the key can be derived from this), but again this is not implemented.
+
 
 ## Performance
 On a 160 MHz ESP32:
